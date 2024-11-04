@@ -10,8 +10,6 @@ class UrlProvider
 {
 
     public const REQUEST_SCHEME = 'REQUEST_SCHEME';
-    
-    public const URL_SEPARATOR = '/';
 
     /**
      * @param RootPath $rootPath
@@ -29,9 +27,9 @@ class UrlProvider
     public function getBaseUrl(): string
     {
         $domain = $this->getRequestScheme()."://".$_SERVER['HTTP_HOST'];
-        return rtrim($domain, self::URL_SEPARATOR).
-            self::URL_SEPARATOR.
-            ltrim($this->getProjectBaseUrl(), self::URL_SEPARATOR);
+        return rtrim($domain, UrlUtils::URL_SEPARATOR).
+            UrlUtils::URL_SEPARATOR.
+            ltrim($this->getProjectBaseUrl(), UrlUtils::URL_SEPARATOR);
     }
 
     /**
@@ -42,7 +40,7 @@ class UrlProvider
     public function getSubUrl(array|string $urls): string
     {
         $urls = is_array($urls) ? $urls : [$urls];
-        return implode(self::URL_SEPARATOR, [$this->getBaseUrl(), ...$urls]);
+        return UrlUtils::implode([$this->getBaseUrl(), ...$urls]);
     }
 
     /**
@@ -51,7 +49,7 @@ class UrlProvider
      */
     public function getCurrentUrl(): string
     {
-        return $this->getBaseUrl().$this->getSuffix();
+        return UrlUtils::implode([$this->getBaseUrl(), $this->getSuffix()]);
     }
 
     /**
@@ -79,25 +77,12 @@ class UrlProvider
      */
     protected function getProjectBaseUrl(): string
     {
-        $subFolder = $this->explodeUrl(dirname($_SERVER['SCRIPT_NAME']));
-        $projectRoot = $this->explodeUrl($this->rootPath->get(false));
+        $subFolder = UrlUtils::explode(dirname($_SERVER['SCRIPT_NAME']));
+        $projectRoot = UrlUtils::explode($this->rootPath->get(false));
 
-        return self::URL_SEPARATOR.implode(self::URL_SEPARATOR, array_intersect($subFolder, $projectRoot));
+        return UrlUtils::URL_SEPARATOR.implode(UrlUtils::URL_SEPARATOR, array_intersect($subFolder, $projectRoot));
     }
 
-    /**
-     * @param string $url
-     * @return array
-     */
-    private function explodeUrl(string $url): array
-    {
-        return explode(
-            self::URL_SEPARATOR,
-            trim(
-                str_replace(DIRECTORY_SEPARATOR, self::URL_SEPARATOR, $url),
-                self::URL_SEPARATOR
-            )
-        );
-    }
+
 
 }

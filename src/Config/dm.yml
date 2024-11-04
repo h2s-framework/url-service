@@ -1,0 +1,6 @@
+id: Core.UrlService.default
+
+arguments:
+  \Siarko\UrlService\Processor\UrlProcessorManager:
+    processors:
+      core.navigation: \Siarko\UrlService\Processor\NavigationProcessor
