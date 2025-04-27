@@ -4,7 +4,6 @@ namespace Siarko\UrlService;
 
 use Siarko\Paths\Exception\RootPathNotSet;
 use Siarko\Paths\RootPath;
-use Siarko\Utils\Strings;
 
 class UrlProvider
 {

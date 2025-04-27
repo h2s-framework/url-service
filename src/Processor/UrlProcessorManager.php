@@ -2,7 +2,6 @@
 
 namespace Siarko\UrlService\Processor;
 
-use Siarko\Api\State\AppMode;
 use Siarko\UrlService\Api\UrlProcessorInterface;
 use Siarko\UrlService\Processor\ProcessedUrlFactory;
 
